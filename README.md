@@ -324,4 +324,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ using Angular 17 and deployed on Surge.sh**
 
-*Last updated: July 2024* 
+*Last updated: July 2025* 
