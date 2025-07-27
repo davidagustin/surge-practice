@@ -1,0 +1,22 @@
+<header class="header">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a routerLink="/" class="logo">
+          <span class="logo-icon">🏠</span>
+          <span class="logo-text">Luxury Realty</span>
+        </a>
+      </div>
+      
+      <div class="navbar-menu">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
+        <a routerLink="/properties" routerLinkActive="active" class="nav-link">Properties</a>
+        <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
+      </div>
+      
+      <div class="navbar-actions">
+        <button class="btn-primary">List Your Property</button>
+      </div>
+    </div>
+  </nav>
+</header> 

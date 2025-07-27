@@ -1,0 +1,144 @@
+<div class="property-detail-page" *ngIf="property">
+  <div class="container">
+    <!-- Property Header -->
+    <div class="property-header">
+      <div class="property-title-section">
+        <h1 class="property-title">{{ property.title }}</h1>
+        <p class="property-location">📍 {{ property.location }}</p>
+        <div class="property-price">{{ property.price | currency:'USD':'symbol':'1.0-0' }}</div>
+      </div>
+      <div class="property-status-badge" [class]="property.status">
+        {{ property.status.replace('-', ' ').toUpperCase() }}
+      </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+      <div class="main-image">
+        <img [src]="property.images[currentImageIndex]" [alt]="property.title">
+        <div class="image-nav">
+          <button class="nav-btn prev" (click)="previousImage()" [disabled]="currentImageIndex === 0">‹</button>
+          <button class="nav-btn next" (click)="nextImage()" [disabled]="currentImageIndex === property.images.length - 1">›</button>
+        </div>
+      </div>
+      <div class="thumbnail-grid">
+        <div class="thumbnail" 
+             *ngFor="let image of property.images; let i = index" 
+             [class.active]="i === currentImageIndex"
+             (click)="setCurrentImage(i)">
+          <img [src]="image" [alt]="property.title">
+        </div>
+      </div>
+    </div>
+
+    <!-- Property Details -->
+    <div class="property-details-grid">
+      <div class="main-content">
+        <!-- Key Details -->
+        <div class="key-details">
+          <div class="detail-item">
+            <span class="detail-icon">🛏️</span>
+            <span class="detail-label">Bedrooms</span>
+            <span class="detail-value">{{ property.bedrooms }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">🚿</span>
+            <span class="detail-label">Bathrooms</span>
+            <span class="detail-value">{{ property.bathrooms }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">📏</span>
+            <span class="detail-label">Square Feet</span>
+            <span class="detail-value">{{ property.squareFeet | number }}</span>
+          </div>
+          <div class="detail-item" *ngIf="property.yearBuilt">
+            <span class="detail-icon">🏗️</span>
+            <span class="detail-label">Year Built</span>
+            <span class="detail-value">{{ property.yearBuilt }}</span>
+          </div>
+          <div class="detail-item" *ngIf="property.lotSize">
+            <span class="detail-icon">🌳</span>
+            <span class="detail-label">Lot Size</span>
+            <span class="detail-value">{{ property.lotSize }} acres</span>
+          </div>
+          <div class="detail-item" *ngIf="property.parking">
+            <span class="detail-icon">🚗</span>
+            <span class="detail-label">Parking</span>
+            <span class="detail-value">{{ property.parking }} spaces</span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h2>Description</h2>
+          <p>{{ property.description }}</p>
+        </div>
+
+        <!-- Features -->
+        <div class="features-section">
+          <h2>Features & Amenities</h2>
+          <div class="features-grid">
+            <div class="feature-item" *ngFor="let feature of property.features">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">{{ feature }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Agent Card -->
+        <div class="agent-card">
+          <h3>Listed by</h3>
+          <div class="agent-info">
+            <img [src]="property.agent.image" [alt]="property.agent.name" class="agent-image">
+            <div class="agent-details">
+              <h4>{{ property.agent.name }}</h4>
+              <p class="agent-phone">{{ property.agent.phone }}</p>
+              <p class="agent-email">{{ property.agent.email }}</p>
+            </div>
+          </div>
+          <div class="agent-actions">
+            <button class="btn-primary">Contact Agent</button>
+            <button class="btn-secondary">Schedule Viewing</button>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button class="btn-primary full-width">Request Information</button>
+          <button class="btn-secondary full-width">Share Property</button>
+          <button class="btn-outline full-width">Print Details</button>
+        </div>
+
+        <!-- Property Info -->
+        <div class="property-info-card">
+          <h3>Property Information</h3>
+          <div class="info-item">
+            <span class="info-label">Property Type:</span>
+            <span class="info-value">{{ property.propertyType | titlecase }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Status:</span>
+            <span class="info-value">{{ property.status.replace('-', ' ') | titlecase }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Listed:</span>
+            <span class="info-value">{{ property.createdAt | date:'mediumDate' }}</span>
+          </div>
+          <div class="info-item" *ngIf="property.coordinates">
+            <span class="info-label">Location:</span>
+            <span class="info-value">{{ property.coordinates.lat | number:'1.4-4' }}, {{ property.coordinates.lng | number:'1.4-4' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading" *ngIf="!property">
+  <div class="loading-spinner"></div>
+  <p>Loading property details...</p>
+</div> 

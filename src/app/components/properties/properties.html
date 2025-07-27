@@ -1,0 +1,122 @@
+<div class="properties-page">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Properties</h1>
+      <p class="page-subtitle">Find your perfect home from our extensive collection</p>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="filters-section">
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Location</label>
+          <input type="text" placeholder="City, ZIP, or Address" [(ngModel)]="filters.location">
+        </div>
+        
+        <div class="filter-group">
+          <label>Property Type</label>
+          <select [(ngModel)]="filters.type">
+            <option value="">All Types</option>
+            <option value="house">House</option>
+            <option value="apartment">Apartment</option>
+            <option value="condo">Condo</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="land">Land</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Status</label>
+          <select [(ngModel)]="filters.status">
+            <option value="">All Status</option>
+            <option value="for-sale">For Sale</option>
+            <option value="for-rent">For Rent</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Price Range</label>
+          <div class="price-range">
+            <input type="number" placeholder="Min" [(ngModel)]="filters.minPrice">
+            <span>-</span>
+            <input type="number" placeholder="Max" [(ngModel)]="filters.maxPrice">
+          </div>
+        </div>
+        
+        <div class="filter-group">
+          <label>Bedrooms</label>
+          <select [(ngModel)]="filters.bedrooms">
+            <option value="">Any</option>
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+          </select>
+        </div>
+        
+        <div class="filter-actions">
+          <button class="btn-primary" (click)="applyFilters()">Apply Filters</button>
+          <button class="btn-secondary" (click)="clearFilters()">Clear All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="results-summary">
+      <p>{{ filteredProperties.length }} properties found</p>
+      <div class="sort-controls">
+        <label>Sort by:</label>
+        <select [(ngModel)]="sortBy" (change)="sortProperties()">
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="date-desc">Newest First</option>
+          <option value="date-asc">Oldest First</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Properties Grid -->
+    <div class="properties-grid" *ngIf="filteredProperties.length > 0">
+      <div class="property-card" *ngFor="let property of filteredProperties" (click)="viewProperty(property.id)">
+        <div class="property-image">
+          <img [src]="property.images[0]" [alt]="property.title">
+          <div class="property-status" [class]="property.status">
+            {{ property.status.replace('-', ' ').toUpperCase() }}
+          </div>
+          <div class="property-price">
+            {{ property.price | currency:'USD':'symbol':'1.0-0' }}
+          </div>
+        </div>
+        <div class="property-info">
+          <h3 class="property-title">{{ property.title }}</h3>
+          <p class="property-location">📍 {{ property.location }}</p>
+          <div class="property-details">
+            <span class="detail">{{ property.bedrooms }} beds</span>
+            <span class="detail">{{ property.bathrooms }} baths</span>
+            <span class="detail">{{ property.squareFeet | number }} sq ft</span>
+          </div>
+          <div class="property-features">
+            <span class="feature" *ngFor="let feature of property.features.slice(0, 3)">
+              {{ feature }}
+            </span>
+          </div>
+          <div class="property-agent">
+            <img [src]="property.agent.image" [alt]="property.agent.name" class="agent-image">
+            <span class="agent-name">{{ property.agent.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results -->
+    <div class="no-results" *ngIf="filteredProperties.length === 0">
+      <div class="no-results-content">
+        <div class="no-results-icon">🏠</div>
+        <h3>No properties found</h3>
+        <p>Try adjusting your filters or search criteria</p>
+        <button class="btn-primary" (click)="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+  </div>
+</div> 
